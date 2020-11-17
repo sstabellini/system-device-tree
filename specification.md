@@ -240,7 +240,7 @@ this example, I used /domains:
 			compatible = "openamp,domain-v1";
 			cpus = <&cpus_r5 0x2 0x80000000>;
 			memory = <0x0 0x0 0x0 0x8000000>;
-			access = <&can@ff060000>;
+			access = <&can@ff060000 0x0>;
 		};
 	};
 
@@ -250,9 +250,19 @@ An openamp,domain node contains information about:
 - memory: memory assigned to the domain
 - access: any devices configured to be only accessible by a domain
 
-The access list is an array of links to devices that are configured to
-be only accessible by an execution domain, using bus firewalls or
-similar technologies.
+cpus is in the format: link-to-cluster cpu-mask execution-level
+Where the cpu-mask is a bitfield indicating the relevant CPUs in the
+cluster, and execution-level is the execution level which is
+cluster-specific (e.g. EL2 for ARMv8).
+
+memory is a sequence of start and size pairs. #address-cells and
+#size-cells express how many cells are used to specify start and
+size respectively.
+
+access is list of links and flags pairs. The links are to devices that
+are configured to be only accessible by an execution domain, using bus
+firewalls or similar technologies. For each link there is a 32-bit
+bitfield to express device-specific flags related to accessibility.
 
 The memory range assigned to an execution domain is expressed by the
 memory property. It needs to be a subset of the physical memory in the
