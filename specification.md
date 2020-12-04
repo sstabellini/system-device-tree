@@ -255,6 +255,15 @@ Where the cpu-mask is a bitfield indicating the relevant CPUs in the
 cluster, and execution-level is the execution level which is
 cluster-specific (e.g. EL2 for ARMv8).
 
+For Cortex-R5 CPUs, execution-level is:
+- bit 31: secure (1) / non-secure (0)
+- bit 30: lockstep (1) / split (0)
+
+For Cortex-A53/A72 CPUs, execution-level is:
+- bit 31: secure (1) / non-secure (0)
+- bits 0-1: EL0 (0x0), EL1 (0x1), or EL2 (0x2)
+
+
 memory is a sequence of start and size pairs. #address-cells and
 #size-cells express how many cells are used to specify start and
 size respectively.
